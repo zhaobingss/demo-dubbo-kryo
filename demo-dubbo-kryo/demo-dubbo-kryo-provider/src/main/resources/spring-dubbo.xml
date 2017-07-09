@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	   xmlns:dubbo="http://code.alibabatech.com/schema/dubbo"
+	   xmlns:context="http://www.springframework.org/schema/context"
+	   xsi:schemaLocation="http://www.springframework.org/schema/beans
+		   	http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
+		   	http://code.alibabatech.com/schema/dubbo
+			http://code.alibabatech.com/schema/dubbo/dubbo.xsd
+		   	http://www.springframework.org/schema/context
+		   	http://www.springframework.org/schema/context/spring-context.xsd">
+
+	<!-- 引入配置文件 -->
+	<context:property-placeholder file-encoding="UTF-8" location="classpath*:dubbo.properties"/>
+
+	<!-- 注册中心 -->
+	<dubbo:registry protocol="zookeeper" id="zo" address="${dubbo.zookeeper.addr}" />
+
+	<!-- 指定传协议输协议、序列化协议、服务端口号 -->
+	<dubbo:protocol port="${dubbo.server.port}" name="dubbo" serialization="kryo"/>
+
+	<!-- 服务的实现类 -->
+	<bean id="helloServiceImpl" class="com.zbss.HelloServiceImpl" />
+
+	<!--
+		暴露服务
+		delay		延迟注册服务时间(毫秒) ，设为-1时，表示延迟到Spring容器初始化完成时暴露服务
+		timeout		远程服务调用超时时间(毫秒)
+		retries		远程服务调用重试次数，不包括第一次调用，不需要重试请设为0
+		loadbalance	负载均衡策略，可选值：random,roundrobin,leastactive，分别表示：随机，轮循，最少活跃调用
+	-->
+	<dubbo:service
+		interface="com.zbss.HelloService"
+		ref="helloServiceImpl"
+		delay="-1"
+		timeout="60000"
+		retries="2"
+		loadbalance="roundrobin"
+	/>
+
+</beans>

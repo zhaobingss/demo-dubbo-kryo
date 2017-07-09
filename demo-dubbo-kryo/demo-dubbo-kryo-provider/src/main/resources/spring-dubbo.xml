@@ -13,6 +13,9 @@
 	<!-- 引入配置文件 -->
 	<context:property-placeholder file-encoding="UTF-8" location="classpath*:dubbo.properties"/>
 
+	<!-- 应用名称（必须的） -->
+	<dubbo:application name="demo-dubbo-kryo-provider"/>
+	
 	<!-- 注册中心 -->
 	<dubbo:registry protocol="zookeeper" id="zo" address="${dubbo.zookeeper.addr}" />
 

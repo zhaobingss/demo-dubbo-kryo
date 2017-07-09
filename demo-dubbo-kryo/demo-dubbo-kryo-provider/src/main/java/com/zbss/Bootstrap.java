@@ -8,7 +8,8 @@ import org.springframework.context.support.ClassPathXmlApplicationContext;
  */
 public class Bootstrap {
 	public static void main(String[] args) {
-		ApplicationContext ctx = new ClassPathXmlApplicationContext(new String[]{"classpath*:spring-dubbo.xml"});
+		ApplicationContext ctx = new ClassPathXmlApplicationContext("classpath:spring-dubbo.xml");
+//		ApplicationContext ctx = new ClassPathXmlApplicationContext(new String[]{"classpath*:spring-dubbo.xml"});
 		System.out.println("sever start !");
 	}
 }

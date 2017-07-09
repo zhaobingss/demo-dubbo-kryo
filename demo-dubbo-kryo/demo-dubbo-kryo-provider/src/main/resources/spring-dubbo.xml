@@ -19,8 +19,9 @@
 	<!-- 注册中心 -->
 	<dubbo:registry protocol="zookeeper" id="zo" address="${dubbo.zookeeper.addr}" />
 
-	<!-- 指定传协议输协议、序列化协议、服务端口号 -->
-	<dubbo:protocol port="${dubbo.server.port}" name="dubbo" serialization="kryo"/>
+	<!-- 指定传输协议、序列化协议、服务端口号 -->
+	<!--<dubbo:protocol port="${dubbo.server.port}" name="dubbo" serialization="kryo"/>-->
+	<dubbo:protocol port="${dubbo.server.port}" name="thrift" serialization="kryo"/>
 
 	<!-- 服务的实现类 -->
 	<bean id="helloServiceImpl" class="com.zbss.HelloServiceImpl" />
@@ -32,9 +33,20 @@
 		retries		远程服务调用重试次数，不包括第一次调用，不需要重试请设为0
 		loadbalance	负载均衡策略，可选值：random,roundrobin,leastactive，分别表示：随机，轮循，最少活跃调用
 	-->
-	<dubbo:service
+	<!--<dubbo:service
 		interface="com.zbss.HelloService"
 		ref="helloServiceImpl"
+		delay="-1"
+		timeout="60000"
+		retries="2"
+		loadbalance="roundrobin"
+	/>-->
+
+	<!-- 注意thrift协议暴漏服务的方式，接口要用thrift程序生成 -->
+	<bean id="thriftHelloServiceIml" class="com.zbss.ThriftHelloServiceImpl"/>
+	<dubbo:service
+		interface="com.zbss.Thrift$Iface"
+		ref="thriftHelloServiceIml"
 		delay="-1"
 		timeout="60000"
 		retries="2"

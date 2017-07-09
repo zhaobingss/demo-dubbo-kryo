@@ -20,7 +20,8 @@
 	<dubbo:registry protocol="zookeeper" id="zo" address="${dubbo.zookeeper.addr}" />
 
 	<!-- 指定传协议输协议、序列化协议、服务端口号 -->
-	<dubbo:protocol port="${dubbo.server.port}" name="dubbo" serialization="kryo"/>
+	<!--<dubbo:protocol port="${dubbo.server.port}" name="dubbo" serialization="kryo"/>-->
+	<dubbo:protocol port="${dubbo.server.port}" name="thrift" serialization="kryo"/>
 
 	<!--
 	 	引用服务
@@ -28,9 +29,18 @@
 		retries		远程服务调用重试次数，不包括第一次调用，不需要重试请设为0
 		loadbalance	负载均衡策略，可选值：random,roundrobin,leastactive，分别表示：随机，轮循，最少活跃调用
 	 -->
-	<dubbo:reference
+	<!--<dubbo:reference
 		interface="com.zbss.HelloService"
 		id="helloService"
+		timeout="20000"
+		retries="2"
+		loadbalance="roundrobin"
+	/>-->
+
+	<!-- 引用thrift协议的服务注意方式 -->
+	<dubbo:reference
+		interface="com.zbss.Thrift$Iface"
+		id="thriftHelloService"
 		timeout="20000"
 		retries="2"
 		loadbalance="roundrobin"

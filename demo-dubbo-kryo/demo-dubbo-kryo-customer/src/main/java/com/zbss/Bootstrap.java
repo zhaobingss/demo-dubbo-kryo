@@ -9,12 +9,15 @@ import java.io.IOException;
  * Created by zhaobing on 2017/7/9.
  */
 public class Bootstrap {
-	public static void main(String[] args) throws IOException {
+	public static void main(String[] args) throws Exception {
 		ApplicationContext ctx = new ClassPathXmlApplicationContext("classpath:spring-dubbo.xml");
 		System.out.println("sever start !");
 
-		HelloService helloService = (HelloService) ctx.getBean("helloService");
+//		HelloService helloService = (HelloService) ctx.getBean("helloService");
+
+		Thrift.Iface helloService = (Thrift.Iface) ctx.getBean("thriftHelloService");
 		String str = helloService.hello("ZHANG SAN");
+
 		System.out.println(str);
 
 	}

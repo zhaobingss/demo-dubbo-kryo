@@ -12,6 +12,10 @@ public class Bootstrap {
 	public static void main(String[] args) throws IOException {
 		ApplicationContext ctx = new ClassPathXmlApplicationContext("classpath:spring-dubbo.xml");
 		System.out.println("sever start !");
-		System.in.read();
+
+		HelloService helloService = (HelloService) ctx.getBean("helloService");
+		String str = helloService.hello("ZHANG SAN");
+		System.out.println(str);
+
 	}
 }
